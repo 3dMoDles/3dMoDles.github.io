@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Upload Model - 3dMoDles</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <nav>
+    <div class="left"><a href="index.html">3dMoDles</a></div>
+    <div class="right"><a href="upload.html">Upload Files</a></div>
+  </nav>
+
+  <main>
+    <h1>Upload Model</h1>
+    <form id="uploadForm">
+      <label>Model Name (required)</label><br>
+      <input type="text" id="modelName" required><br><br>
+
+      <label>Description (optional)</label><br>
+      <textarea id="description"></textarea><br><br>
+
+      <label>Creator (required)</label><br>
+      <input type="text" id="creator" required><br><br>
+
+      <label>STL File (required)</label><br>
+      <input type="file" id="stlFile" accept=".stl" required><br><br>
+
+      <button type="submit">Upload</button>
+    </form>
+  </main>
+
+  <script>
+    const uploadForm = document.getElementById('uploadForm');
+    uploadForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const modelName = document.getElementById('modelName').value;
+      const description = document.getElementById('description').value;
+      const creator = document.getElementById('creator').value;
+      const file = document.getElementById('stlFile').files[0];
+
+      if (modelName && creator && file) {
+        // Save to localStorage (temporary until real database)
+        const models = JSON.parse(localStorage.getItem('models') || '[]');
+        const reader = new FileReader();
+        
+        reader.onload = function(event) {
+          const modelData = {
+            modelName,
+            description,
+            creator,
+            fileData: event.target.result
+          };
+          models.push(modelData);
+          localStorage.setItem('models', JSON.stringify(models));
+          alert('Model uploaded!');
+          window.location.href = 'view.html';
+        };
+
+        reader.readAsDataURL(file);
+      }
+    });
+  </script>
+</body>
+</html>
