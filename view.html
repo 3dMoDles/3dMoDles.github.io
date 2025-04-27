@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>View Models - 3dMoDles</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <nav>
+    <div class="left"><a href="index.html">3dMoDles</a></div>
+    <div class="right"><a href="upload.html">Upload Files</a></div>
+  </nav>
+
+  <main>
+    <h1>Models</h1>
+    <div id="modelsList"></div>
+  </main>
+
+  <script>
+    const modelsList = document.getElementById('modelsList');
+    const models = JSON.parse(localStorage.getItem('models') || '[]');
+
+    models.forEach(model => {
+      const div = document.createElement('div');
+      div.innerHTML = `
+        <h2>${model.modelName}</h2>
+        <p><strong>Creator:</strong> ${model.creator}</p>
+        <p>${model.description}</p>
+        <a href="${model.fileData}" download="${model.modelName}.stl">Download STL</a>
+        <hr>
+      `;
+      modelsList.appendChild(div);
+    });
+  </script>
+</body>
+</html>
